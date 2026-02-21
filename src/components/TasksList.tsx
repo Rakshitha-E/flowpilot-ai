@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 interface Task {
   id: number;
@@ -26,7 +27,7 @@ function TasksList({ refreshTrigger }: Props) {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/tasks");
+      const response = await fetch(`${API_BASE_URL}/tasks`);
       const data = await response.json();
       setTasks(data);
     } catch (error) {

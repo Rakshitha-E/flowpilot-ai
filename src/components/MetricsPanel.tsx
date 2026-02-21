@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 interface Metrics {
   total_emails_processed: number;
@@ -42,7 +43,7 @@ function MetricsPanel({ refreshTrigger = 0 }: Props) {
   const fetchMetrics = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/metrics/dashboard");
+      const response = await fetch(`${API_BASE_URL}/metrics/dashboard`);
       const data = await response.json();
       setMetrics(data);
     } catch (error) {
@@ -53,7 +54,7 @@ function MetricsPanel({ refreshTrigger = 0 }: Props) {
 
   const resetMetrics = async () => {
     try {
-      await fetch("http://127.0.0.1:8000/metrics/reset", {
+      await fetch(`${API_BASE_URL}/metrics/reset`, {
         method: "POST",
       });
       fetchMetrics();

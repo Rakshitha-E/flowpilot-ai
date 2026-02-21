@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 interface Props {
   setResult: (data: any) => void;
@@ -38,13 +39,13 @@ Senior Finance Director`;
 
       let response;
       if (useOrchestration) {
-        response = await fetch("http://127.0.0.1:8000/agent/orchestrate", {
+        response = await fetch(`${API_BASE_URL}/agent/orchestrate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ emailText: email }),
         });
       } else {
-        response = await fetch("http://127.0.0.1:8000/analyze", {
+        response = await fetch(`${API_BASE_URL}/analyze`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ emailText: email }),
@@ -68,7 +69,7 @@ Senior Finance Director`;
       
       // Record metrics - email processed
       try {
-        await fetch("http://127.0.0.1:8000/metrics/record-email", { method: "POST" });
+        await fetch(`${API_BASE_URL}/metrics/record-email`, { method: "POST" });
       } catch {}
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to analyze email");
@@ -88,7 +89,7 @@ Senior Finance Director`;
         return;
       }
 
-      const response = await fetch("http://127.0.0.1:8000/reply/smart", {
+      const response = await fetch(`${API_BASE_URL}/reply/smart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ emailText: email }),
@@ -111,7 +112,7 @@ Senior Finance Director`;
         
         // Record metrics - email processed
         try {
-          await fetch("http://127.0.0.1:8000/metrics/record-email", { method: "POST" });
+          await fetch(`${API_BASE_URL}/metrics/record-email`, { method: "POST" });
         } catch {}
       }
     } catch (err) {

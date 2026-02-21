@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 interface Props {
   task?: any;
@@ -13,7 +14,7 @@ function ApprovalButtons({ task, autonomousMode = false, onTaskApproved }: Props
   const handleApprove = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/approve-task", {
+      const response = await fetch(`${API_BASE_URL}/approve-task`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +34,7 @@ function ApprovalButtons({ task, autonomousMode = false, onTaskApproved }: Props
         
         // Record metrics - task created
         try {
-          await fetch("http://127.0.0.1:8000/metrics/record-task", { 
+          await fetch(`${API_BASE_URL}/metrics/record-task`, { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ autonomous: autonomousMode })
